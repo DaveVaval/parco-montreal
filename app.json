@@ -4,7 +4,7 @@
     "slug": "parco-montreal",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/icon-mtl.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/adaptive-icon-mtl.png",
         "backgroundColor": "#ffffff"
       }
     },
@@ -31,6 +31,11 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "bc1349ce-5c76-4aa0-b1c4-11b102024f3e"
+      }
     }
   }
 }
