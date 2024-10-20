@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon-mtl.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.grimmjowx9.parcomontreal"
     },
     "web": {
       "bundler": "metro",
