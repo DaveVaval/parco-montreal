@@ -25,8 +25,6 @@ import {
 export default function index() {
   const animation = useRef<LottieView>(null);
 
-
-
   return (
     <Pressable className='flex-1' onPress={Keyboard.dismiss}>
       <ThemedView style={styles.container}>
