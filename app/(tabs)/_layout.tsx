@@ -4,6 +4,7 @@ import React from 'react';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -19,7 +20,8 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            // <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            <MaterialIcons name='local-parking' size={28} color={colorScheme === 'dark' ? 'white' : 'blue'} style={[{ marginBottom: -3 }]}/>
           ),
         }}
       />

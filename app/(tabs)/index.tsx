@@ -1,70 +1,94 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
+import { 
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Text,
+  Keyboard,
+  Pressable,
+  Image
+} from 'react-native'
+import { useRef, useEffect } from 'react'
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import LottieView from 'lottie-react-native';
+import { FontAwesome6 } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { Input } from '@/components/ui/input';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card';
 
-export default function HomeScreen() {
+export default function index() {
+  const animation = useRef<LottieView>(null);
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
+    <Pressable className='flex-1' onPress={Keyboard.dismiss}>
+      <ThemedView style={styles.container}>
+        <View className='justify-around items-center w-full h-[90%]'>
+          <Card className='w-full max-w-sm'>
+            <CardHeader>
+              <CardTitle>Place récente</CardTitle>
+            </CardHeader>
+            <CardContent className='items-center'>
+              <Image
+                source={require('@/assets/images/1159425.png')}
+                style={{
+                  height: 300,
+                  width: 300
+                }}
+              />
+            </CardContent>
+            <CardFooter className='justify-between items-center'>
+              <ThemedText className='font-semibold'>PN697</ThemedText>
+              <TouchableOpacity>
+                <Ionicons name='information-circle' color={'white'} size={25}/>
+              </TouchableOpacity>
+            </CardFooter>
+          </Card>
+          <View className='w-full'>
+            <View className='flex-row w-full justify-center items-center mb-2'>
+              <Input
+                className='w-[70%] mr-2'
+                placeholder='Entrez le code'
+              />
+              <TouchableOpacity>
+                <View className='bg-blue h-14 w-14 ml-2 items-center justify-center rounded-lg'>
+                  <FontAwesome6 name='camera' size={20} color="white"/>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity className='w-full mt-2'>
+              <View style={styles.button}>
+                <Text style={{color: 'white', fontWeight: 500}}>Rechercher</Text>
+                <View className='pl-4'>
+                  <FontAwesome6 name="magnifying-glass" color="white"/>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+    </Pressable>
+  )
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  button: {
+    height: 60,
+    borderRadius: 20,
+    marginHorizontal: 20,
+    backgroundColor: '#47a3ff',
+    justifyContent: 'center',
     alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
+    flexDirection: 'row'
+  }
+})
