@@ -1,17 +1,14 @@
 import '../global.css'
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-// import { GestureHandlerRootView } from 'react-native-gesture-handler';
-// import Drawer from 'expo-router/drawer';
-import { Stack } from 'expo-router';
-// import { Ionicons } from '@expo/vector-icons';
-// import { MaterialIcons } from '@expo/vector-icons';
+import { Link, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
-// import { View, Text } from 'react-native';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { Pressable } from 'react-native';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -35,7 +32,23 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen options={{headerShown: false}} name='(tabs)'/>
+        <Stack.Screen 
+          name='index'
+          options={{
+            title: 'ParcoPay',
+            headerShadowVisible: false,
+            headerLeft: () => (
+              <MaterialIcons name='local-parking' size={28} color={colorScheme === 'dark' ? 'white' : 'blue'} className=''/>
+            ),
+            headerRight: () => (
+              <Link href='/settings' asChild>
+                <Pressable>
+                  <Ionicons name='settings-outline' color={'white'} size={25} className=''/>
+                </Pressable>
+              </Link>
+            ),
+          }} 
+        />
         <Stack.Screen
           name='settings/index'
           options={{
