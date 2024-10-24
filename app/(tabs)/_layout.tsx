@@ -1,10 +1,10 @@
-import { Tabs } from 'expo-router';
+import { Tabs, Link } from 'expo-router';
 import React from 'react';
-
+import { Pressable } from 'react-native';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -13,22 +13,32 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
+        headerRight: () => (
+          <Link href='/settings' asChild>
+            <Pressable>
+              <Ionicons name='settings-outline' color={'white'} size={25} className='mr-2'/>
+            </Pressable>
+          </Link>
+        ),
+        tabBarShowLabel: false
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: 'ParcoPay',
           tabBarIcon: ({ color, focused }) => (
-            // <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
-            <MaterialIcons name='local-parking' size={28} color={colorScheme === 'dark' ? 'white' : 'blue'} style={[{ marginBottom: -3 }]}/>
+            <MaterialIcons name='local-parking' size={28} color={color} style={[{ marginBottom: -3 }]}/>
           ),
+          headerLeft: () => (
+            <MaterialIcons name='local-parking' size={28} color={colorScheme === 'dark' ? 'white' : 'blue'} className='pl-6'/>
+          )
         }}
       />
       <Tabs.Screen
         name="explore"
         options={{
           title: 'Explore',
+          headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
           ),

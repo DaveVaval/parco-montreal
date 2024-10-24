@@ -35,7 +35,14 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name='(tabs)'/>
+        <Stack.Screen options={{headerShown: false}} name='(tabs)'/>
+        <Stack.Screen
+          name='settings/index'
+          options={{
+            title: 'Settings',
+            headerShadowVisible: false
+          }}
+        />
       </Stack>
     </ThemeProvider>
   );
