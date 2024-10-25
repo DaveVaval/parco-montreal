@@ -31,12 +31,15 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
+      <Stack
+        screenOptions={{
+          headerShadowVisible: false
+        }}
+      >
         <Stack.Screen 
           name='index'
           options={{
             title: 'ParcoPay',
-            headerShadowVisible: false,
             headerLeft: () => (
               <MaterialIcons name='local-parking' size={28} color={colorScheme === 'dark' ? 'white' : 'blue'} className=''/>
             ),
@@ -53,7 +56,18 @@ export default function RootLayout() {
           name='settings/index'
           options={{
             title: 'Settings',
-            headerShadowVisible: false
+          }}
+        />
+        <Stack.Screen
+          name='history'
+          options={{
+            title: 'Historique',
+          }}
+        />
+        <Stack.Screen
+          name='camera'
+          options={{
+            title: 'Camera',
           }}
         />
       </Stack>

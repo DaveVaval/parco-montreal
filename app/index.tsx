@@ -21,9 +21,11 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
+import { Link, useNavigation } from 'expo-router';
 
 export default function index() {
   const animation = useRef<LottieView>(null);
+  const navigation = useNavigation<any>();
 
   return (
     <Pressable className='flex-1' onPress={Keyboard.dismiss}>
@@ -49,6 +51,14 @@ export default function index() {
               </TouchableOpacity>
             </CardFooter>
           </Card>
+          <Pressable>
+          </Pressable>
+            <Link href={'/history'}>
+              <View className='flex-row bg-blue w-full items-center justify-between'>
+                <ThemedText style={{fontSize: 12}}>Historique</ThemedText>
+                <Ionicons name='chevron-forward-outline' color={'white'} size={15}/>
+              </View>
+            </Link>
           <Card className='w-[90%] bg-[#2b2b2b] py-6'>
             <View className='w-full'>
               <View className='flex-row w-full justify-center items-center mb-2'>
@@ -56,7 +66,7 @@ export default function index() {
                   className='w-[70%] mr-2 bg-[#4d4d4d] border border-zinc-600'
                   placeholder='Entrez le code'
                 />
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('camera')}>
                   <View className='bg-blue h-14 w-14 ml-2 items-center justify-center rounded-lg'>
                     <FontAwesome6 name='camera' size={20} color="white"/>
                   </View>
