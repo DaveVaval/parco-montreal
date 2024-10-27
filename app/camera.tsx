@@ -5,9 +5,11 @@ import {
   useCameraPermission, 
   useCameraDevice,
   useFrameProcessor,
-  useSkiaFrameProcessor
+  useSkiaFrameProcessor,
+  runAtTargetFps
 } from 'react-native-vision-camera';
 import { useTextRecognition } from 'react-native-vision-camera-text-recognition' 
+import { Skia } from '@shopify/react-native-skia';
 
 export default function CameraScreen() {
   const device = useCameraDevice('back');
@@ -18,13 +20,29 @@ export default function CameraScreen() {
 
   const frameProcessor = useFrameProcessor((frame) => {
     'worklet'
-    const data = scanText(frame)
-    console.log(JSON.stringify(data[0].resultText, null, 2));
+    runAtTargetFps(1, () => {
+      const data = scanText(frame);
+      console.log(JSON.stringify(data, null, 2));
+    })
   }, []);
 
   const skiaFrameProcessor = useSkiaFrameProcessor((frame) => {
     'worklet'
+    // const data: any = scanText(frame)
     frame.render();
+    // for (const text of data) {
+    //   const paint = Skia.Paint()
+    //   paint.setColor(Skia.Color('red'))
+    //   frame.drawRect(text.rect, paint)
+    // }
+    const centerX = frame.width / 2
+    const centerY = frame.height / 2
+    const rect = Skia.XYWHRect(centerX, centerY, 150, 150)
+    const rouned = Skia.RRectXY(rect, 10, 10)
+    const paint = Skia.Paint()
+    paint.setColor(Skia.Color('red'))
+    frame.drawRRect(rouned, paint);
+    // frame.drawRect(rouned, paint)
   },[])
 
   if (!hasPermission) {
@@ -39,7 +57,7 @@ export default function CameraScreen() {
   return (
     <Camera
       style={StyleSheet.absoluteFill}
-      frameProcessor={frameProcessor}
+      frameProcessor={skiaFrameProcessor}
       device={device!}
       isActive
     />
