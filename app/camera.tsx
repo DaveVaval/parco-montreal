@@ -31,6 +31,7 @@ export default function CameraScreen() {
   const device = useCameraDevice('back');
   const { hasPermission, requestPermission } = useCameraPermission();
   const [recText, setRecText] = useState<any>();
+  const [index, setIndex] = useState(-1);
   const bottomSheetRef = useRef<BottomSheet>(null)
 
   const { scanText } = useTextRecognition({
@@ -39,6 +40,7 @@ export default function CameraScreen() {
 
   const updateText = useRunOnJS((result) => {
     setRecText(result)
+    setIndex(0)
   },[])
 
   if (!hasPermission) {
@@ -60,6 +62,7 @@ export default function CameraScreen() {
   },[]);
 
   const handleSheetChanges = useCallback((index: number) => {
+    setIndex(index)
     console.log('handleSheetChanges', index);
   }, []);
 
@@ -81,27 +84,27 @@ export default function CameraScreen() {
             width: 300
           }}
         /> */}
-        {/* <Card className='w-full max-w-sm bg-[#2b2b2b]'>
-          <CardHeader>
-            <CardTitle>Place récente</CardTitle>
-          </CardHeader>
-          <CardContent className='items-center'>
-            <ThemedText>{recText}</ThemedText>
-          </CardContent>
-          <CardFooter className='justify-between items-center'>
-            <ThemedText className='font-semibold'>PN697</ThemedText>
-            <TouchableOpacity>
-              <Ionicons name='information-circle' color={'white'} size={25}/>
-            </TouchableOpacity>
-          </CardFooter>
-        </Card> */}
         <BottomSheet
           ref={bottomSheetRef}
           onChange={handleSheetChanges}
-          index={-1}
+          index={index}
+          enablePanDownToClose
         >
           <BottomSheetView style={{flex: 1, padding: 36, alignItems: 'center'}}>
-            <Text>Awesome 🎉</Text>
+            <Card className='w-full max-w-sm bg-[#2b2b2b]'>
+              <CardHeader>
+                <CardTitle>Place récente</CardTitle>
+              </CardHeader>
+              <CardContent className='items-center'>
+                <ThemedText>{recText}</ThemedText>
+              </CardContent>
+              <CardFooter className='justify-between items-center'>
+                <ThemedText className='font-semibold'>PN697</ThemedText>
+                <TouchableOpacity>
+                  <Ionicons name='information-circle' color={'white'} size={25}/>
+                </TouchableOpacity>
+              </CardFooter>
+            </Card>
           </BottomSheetView>
         </BottomSheet>
       </View>
