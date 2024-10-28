@@ -68,6 +68,7 @@ export default function RootLayout() {
           name='camera'
           options={{
             title: 'Camera',
+            // headerShown: false
           }}
         />
       </Stack>
