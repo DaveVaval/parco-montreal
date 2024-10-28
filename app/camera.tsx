@@ -1,25 +1,37 @@
-import { View, Text, Permission, StyleSheet } from 'react-native'
+import { 
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Text
+} from 'react-native'
+import { Ionicons } from '@expo/vector-icons';
 import { useCallback, useEffect, useState, useRef } from 'react'
 import { useRunOnJS } from 'react-native-worklets-core';
+import LottieView from 'lottie-react-native';
 import { 
   Camera,
   useCameraPermission, 
   useCameraDevice,
   useFrameProcessor,
-  useSkiaFrameProcessor,
   runAtTargetFps,
 } from 'react-native-vision-camera';
-import { 
-  useTextRecognition, 
-  // Camera
-} from 'react-native-vision-camera-text-recognition'
-import { Skia, Canvas, Rect } from '@shopify/react-native-skia';
+import { useTextRecognition } from 'react-native-vision-camera-text-recognition'
+// import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ThemedText';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 
 export default function CameraScreen() {
   const device = useCameraDevice('back');
   const { hasPermission, requestPermission } = useCameraPermission();
-  const [frameData, setFrameData] = useState<any>();
   const [recText, setRecText] = useState<any>();
+  const bottomSheetRef = useRef<BottomSheet>(null)
 
   const { scanText } = useTextRecognition({
     "language": 'latin'
@@ -28,6 +40,11 @@ export default function CameraScreen() {
   const updateText = useRunOnJS((result) => {
     setRecText(result)
   },[])
+
+  if (!hasPermission) {
+    console.log('ping')
+    requestPermission()
+  }
   
   const frameProcessor = useFrameProcessor((frame) => {
     'worklet'
@@ -42,54 +59,52 @@ export default function CameraScreen() {
     })
   },[]);
 
-  // const skiaFrameProcessor = useSkiaFrameProcessor((frame) => {
-  //   'worklet'
-  //   frame.render();
-  //   runAtTargetFps(1, () => {
-  //     const data: any = scanText(frame);
-  //     if (data.resultText !== undefined) {
-  //       'worklet'
-  //       setFrameData(data.blocks[0].blockFrame)
-  //       console.log(data.blocks[0].blockFrame);
-  //     }
-  //   })
-  //   // const centerX = frame.width / 3
-  //   // const centerY = frame.height / 3
-  //   // const rect = Skia.XYWHRect(centerX, centerY, 150, 150)
-  //   // const rouned = Skia.RRectXY(rect, 10, 10)
-  //   // const paint = Skia.Paint()
-  //   // paint.setColor(Skia.Color('red'))
-  //   // frame.drawRRect(rouned, paint);
-  // },[])
-
-  if (!hasPermission) {
-    console.log('ping')
-    requestPermission()
-  }
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log('handleSheetChanges', index);
+  }, []);
 
   return (
     <>
       <Camera
         style={StyleSheet.absoluteFill}
         frameProcessor={frameProcessor}
-        // options={{
-        //   language: 'latin'
-        // }}
         device={device!}
         isActive
-        // mode='recognize'
-        // callback={logText}
       />
-      <View style={{flex: 1}}>
-        <View className='bg-red-500 justify-center items-center'>
-          <Text className='font-bold'>{recText}</Text>
-        </View>
+      <View className='flex-1 items-center justify-end'>
+        {/* <LottieView
+          source={require('@/assets/animations/scan.json')}
+          autoPlay
+          loop
+          style={{
+            height: 300,
+            width: 300
+          }}
+        /> */}
+        {/* <Card className='w-full max-w-sm bg-[#2b2b2b]'>
+          <CardHeader>
+            <CardTitle>Place récente</CardTitle>
+          </CardHeader>
+          <CardContent className='items-center'>
+            <ThemedText>{recText}</ThemedText>
+          </CardContent>
+          <CardFooter className='justify-between items-center'>
+            <ThemedText className='font-semibold'>PN697</ThemedText>
+            <TouchableOpacity>
+              <Ionicons name='information-circle' color={'white'} size={25}/>
+            </TouchableOpacity>
+          </CardFooter>
+        </Card> */}
+        <BottomSheet
+          ref={bottomSheetRef}
+          onChange={handleSheetChanges}
+          index={-1}
+        >
+          <BottomSheetView style={{flex: 1, padding: 36, alignItems: 'center'}}>
+            <Text>Awesome 🎉</Text>
+          </BottomSheetView>
+        </BottomSheet>
       </View>
-      {/* {frameData && (
-        <Canvas style={{flex: 1}}>
-          <Rect x={frameData?.x} y={frameData?.y} height={frameData?.height} width={frameData?.width} color={'red'}/>
-        </Canvas>
-      )} */}
     </>
   )
 }
