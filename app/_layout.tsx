@@ -72,6 +72,9 @@ export default function RootLayout() {
               // headerShown: false
             }}
           />
+          <Stack.Screen
+            name='parcometer/[id]'
+          />
         </Stack>
       </ThemeProvider>
     </GestureHandlerRootView>

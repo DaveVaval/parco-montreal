@@ -24,7 +24,6 @@ import {
 import { Link, useNavigation } from 'expo-router';
 
 export default function index() {
-  const animation = useRef<LottieView>(null);
   const navigation = useNavigation<any>();
 
   return (

@@ -29,6 +29,7 @@ import {
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import Animated from 'react-native-reanimated';
 import { FadeIn, FadeOut } from 'react-native-reanimated';
+import { Link } from 'expo-router';
 
 export default function CameraScreen() {
   const colorScheme = useColorScheme();
@@ -98,7 +99,7 @@ export default function CameraScreen() {
             index={index}
             enablePanDownToClose
             backgroundStyle={{
-              backgroundColor: colorScheme === 'dark' ? '#000' : '#fff'
+              backgroundColor: colorScheme === 'dark' ? '#121212' : '#fff'
             }}
             handleIndicatorStyle={{
               backgroundColor: colorScheme === 'dark' ? '#fff' : '#000'
@@ -117,15 +118,18 @@ export default function CameraScreen() {
                       width: 150
                     }}
                   />
-                  <View className='bg-orange-400'>
-                    <ThemedText>parcometer data + date data</ThemedText>
+                  <View className='mt-4'>
+                    <ThemedText>Disponible entre 7h et 20h</ThemedText>
                   </View>
                 </CardContent>
                 <CardFooter className='justify-between items-center'>
-                  <ThemedText className='font-semibold'>{recText}</ThemedText>
-                  <TouchableOpacity>
-                    <Ionicons name='information-circle' color={'white'} size={25}/>
-                  </TouchableOpacity>
+                  <Link href='/parcometer/1' asChild>
+                    <TouchableOpacity className='w-full mt-2'>
+                        <View className='bg-[#47a3ff] h-16 items-center justify-center rounded-xl'>
+                          <Text style={{color: 'white', fontWeight: 500}}>Procéder</Text>
+                        </View>
+                    </TouchableOpacity>
+                  </Link>
                 </CardFooter>
               </Card>
             </BottomSheetView>
