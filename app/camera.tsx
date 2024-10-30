@@ -2,7 +2,9 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Text
+  Text,
+  useColorScheme,
+  Image
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import { useCallback, useEffect, useState, useRef } from 'react'
@@ -16,7 +18,6 @@ import {
   runAtTargetFps,
 } from 'react-native-vision-camera';
 import { useTextRecognition } from 'react-native-vision-camera-text-recognition'
-// import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import {
   Card,
@@ -26,8 +27,11 @@ import {
   CardTitle
 } from '@/components/ui/card';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import Animated from 'react-native-reanimated';
+import { FadeIn, FadeOut } from 'react-native-reanimated';
 
 export default function CameraScreen() {
+  const colorScheme = useColorScheme();
   const device = useCameraDevice('back');
   const { hasPermission, requestPermission } = useCameraPermission();
   const [recText, setRecText] = useState<any>();
@@ -50,7 +54,7 @@ export default function CameraScreen() {
   
   const frameProcessor = useFrameProcessor((frame) => {
     'worklet'
-    runAtTargetFps(0.5, () => {
+    runAtTargetFps(0.8, () => {
       'worklet'
       const data: any = scanText(frame)
       if (data.resultText !== undefined && data.resultText.match(/\b[A-Z]{1,2}\n?\d{3}\b/)) {
@@ -74,40 +78,60 @@ export default function CameraScreen() {
         device={device!}
         isActive
       />
-      <View className='flex-1 items-center justify-end'>
-        {/* <LottieView
-          source={require('@/assets/animations/scan.json')}
-          autoPlay
-          loop
-          style={{
-            height: 300,
-            width: 300
-          }}
-        /> */}
-        <BottomSheet
-          ref={bottomSheetRef}
-          onChange={handleSheetChanges}
-          index={index}
-          enablePanDownToClose
-        >
-          <BottomSheetView style={{flex: 1, padding: 36, alignItems: 'center'}}>
-            <Card className='w-full max-w-sm bg-[#2b2b2b]'>
-              <CardHeader>
-                <CardTitle>Place récente</CardTitle>
-              </CardHeader>
-              <CardContent className='items-center'>
-                <ThemedText>{recText}</ThemedText>
-              </CardContent>
-              <CardFooter className='justify-between items-center'>
-                <ThemedText className='font-semibold'>PN697</ThemedText>
-                <TouchableOpacity>
-                  <Ionicons name='information-circle' color={'white'} size={25}/>
-                </TouchableOpacity>
-              </CardFooter>
-            </Card>
-          </BottomSheetView>
-        </BottomSheet>
-      </View>
+      <Animated.View entering={FadeIn} exiting={FadeOut} className='flex-1 items-center justify-end'>
+        {index == -1 ? (
+          <View className='mb-4'>
+            <LottieView
+              source={require('@/assets/animations/loading-scan.json')}
+              autoPlay
+              loop
+              style={{
+                height: 150,
+                width: 150
+              }}
+            />
+          </View>
+        ) : (
+          <BottomSheet
+            ref={bottomSheetRef}
+            onChange={handleSheetChanges}
+            index={index}
+            enablePanDownToClose
+            backgroundStyle={{
+              backgroundColor: colorScheme === 'dark' ? '#000' : '#fff'
+            }}
+            handleIndicatorStyle={{
+              backgroundColor: colorScheme === 'dark' ? '#fff' : '#000'
+            }}
+          >
+            <BottomSheetView className='flex items-center p-6'>
+              <Card className='w-full max-w-sm bg-[#2b2b2b]'>
+                <CardHeader>
+                  <CardTitle>{recText}</CardTitle>
+                </CardHeader>
+                <CardContent className='items-center'>
+                  <Image
+                    source={require('@/assets/images/1159425.png')}
+                    style={{
+                      height: 150,
+                      width: 150
+                    }}
+                  />
+                  <View className='bg-orange-400'>
+                    <ThemedText>parcometer data + date data</ThemedText>
+                  </View>
+                </CardContent>
+                <CardFooter className='justify-between items-center'>
+                  <ThemedText className='font-semibold'>{recText}</ThemedText>
+                  <TouchableOpacity>
+                    <Ionicons name='information-circle' color={'white'} size={25}/>
+                  </TouchableOpacity>
+                </CardFooter>
+              </Card>
+            </BottomSheetView>
+          </BottomSheet>
+        )}
+      </Animated.View>
     </>
   )
 }
