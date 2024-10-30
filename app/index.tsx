@@ -7,10 +7,8 @@ import {
   Pressable,
   Image
 } from 'react-native'
-import { useRef } from 'react'
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import LottieView from 'lottie-react-native';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { Input } from '@/components/ui/input';

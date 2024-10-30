@@ -36,7 +36,7 @@ export default function CameraScreen() {
   const device = useCameraDevice('back');
   const { hasPermission, requestPermission } = useCameraPermission();
   const [recText, setRecText] = useState<any>();
-  const [index, setIndex] = useState(-1);
+  const [index, setIndex] = useState(0);
   const bottomSheetRef = useRef<BottomSheet>(null)
 
   const { scanText } = useTextRecognition({
@@ -125,9 +125,9 @@ export default function CameraScreen() {
                 <CardFooter className='justify-between items-center'>
                   <Link href='/parcometer/1' asChild>
                     <TouchableOpacity className='w-full mt-2'>
-                        <View className='bg-[#47a3ff] h-16 items-center justify-center rounded-xl'>
-                          <Text style={{color: 'white', fontWeight: 500}}>Procéder</Text>
-                        </View>
+                      <View className='bg-[#47a3ff] h-16 items-center justify-center rounded-xl'>
+                        <Text style={{color: 'white', fontWeight: 500}}>Procéder</Text>
+                      </View>
                     </TouchableOpacity>
                   </Link>
                 </CardFooter>
