@@ -1,19 +1,24 @@
 import '../global.css'
+import 'react-native-reanimated';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Link, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { Pressable } from 'react-native';
+import { useDrizzleStudio } from 'expo-drizzle-studio-plugin';
+import * as SQLite from "expo-sqlite";
+
+const db = SQLite.openDatabaseSync('parcopay.db');
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  useDrizzleStudio(db);
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
