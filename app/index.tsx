@@ -48,14 +48,14 @@ export default function index() {
               </TouchableOpacity>
             </CardFooter>
           </Card>
-          <Pressable>
-          </Pressable>
-            <Link href={'/history'}>
-              <View className='flex-row bg-blue w-full items-center justify-between'>
+          <Link href={'/history'} asChild>
+            <TouchableOpacity>
+              <View className='flex-row w-full px-4 items-center justify-between'>
                 <ThemedText style={{fontSize: 12}}>Historique</ThemedText>
                 <Ionicons name='chevron-forward-outline' color={'white'} size={15}/>
               </View>
-            </Link>
+            </TouchableOpacity>
+          </Link>
           <Card className='w-[90%] bg-[#2b2b2b] py-6'>
             <View className='w-full'>
               <View className='flex-row w-full justify-center items-center mb-2'>
