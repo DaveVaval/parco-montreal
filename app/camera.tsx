@@ -30,13 +30,14 @@ import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import Animated from 'react-native-reanimated';
 import { FadeIn, FadeOut } from 'react-native-reanimated';
 import { Link } from 'expo-router';
+import { faker } from '@faker-js/faker';
 
 export default function CameraScreen() {
   const colorScheme = useColorScheme();
   const device = useCameraDevice('back');
   const { hasPermission, requestPermission } = useCameraPermission();
   const [recText, setRecText] = useState<any>();
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(-1);
   const bottomSheetRef = useRef<BottomSheet>(null)
 
   const { scanText } = useTextRecognition({
@@ -55,7 +56,7 @@ export default function CameraScreen() {
   
   const frameProcessor = useFrameProcessor((frame) => {
     'worklet'
-    runAtTargetFps(0.8, () => {
+    runAtTargetFps(0.7, () => {
       'worklet'
       const data: any = scanText(frame)
       if (data.resultText !== undefined && data.resultText.match(/\b[A-Z]{1,2}\n?\d{3}\b/)) {

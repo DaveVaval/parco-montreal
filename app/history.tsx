@@ -1,5 +1,5 @@
 import { View, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { ThemedText } from '@/components/ThemedText'
 import { ThemedView } from '@/components/ThemedView'
 import { FlashList } from '@shopify/flash-list'
@@ -11,6 +11,7 @@ import {
   CardTitle
 } from '@/components/ui/card';
 import { Ionicons } from '@expo/vector-icons'
+import { faker } from '@faker-js/faker';
 
 const DATA = [
   {
@@ -40,6 +41,10 @@ const DATA = [
 ];
 
 export default function History() {
+  // const date = faker.date.between({
+  //   from: new Date,
+  //   to: 
+  // })
   return (
     <ThemedView className='flex-1'>
       <FlashList
