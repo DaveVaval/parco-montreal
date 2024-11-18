@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/card';
 import { Ionicons } from '@expo/vector-icons'
 import { faker } from '@faker-js/faker';
+import dayjs from 'dayjs'
 
 const DATA = [
   {
@@ -41,10 +42,15 @@ const DATA = [
 ];
 
 export default function History() {
-  // const date = faker.date.between({
-  //   from: new Date,
-  //   to: 
-  // })
+  const date = faker.date.between({
+    from: dayjs().toString(),
+    to: dayjs().add(2, 'day').toString()
+  })
+  const date2 = faker.date.betweens({
+    from: dayjs().toString(),
+    to: dayjs().add(2, 'day').toString(),
+    count: 2
+  })
   return (
     <ThemedView className='flex-1'>
       <FlashList
@@ -63,7 +69,7 @@ export default function History() {
                     width: 50
                   }}
                 />
-                <ThemedText>Date: </ThemedText>
+                <ThemedText>Date: {date2.toString()}</ThemedText>
               </CardContent>
               <CardFooter className='justify-between items-center'>
                 <ThemedText className='font-semibold'>PN697</ThemedText>

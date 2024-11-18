@@ -120,7 +120,7 @@ export default function CameraScreen() {
                     }}
                   />
                   <View className='mt-4'>
-                    <ThemedText>Disponible entre 7h et 20h</ThemedText>
+                    <ThemedText>Disponible entre 7:00am et 8:00pm</ThemedText>
                   </View>
                 </CardContent>
                 <CardFooter className='justify-between items-center'>
